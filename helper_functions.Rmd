@@ -18,6 +18,11 @@ function to clean input strings
 # remove non alphanumeric characters,
 # extra whitespace, and convert to lower case
 test_string_clean <- function(in_string) {
+  
+  # replace NA with blank string
+  if(is.na(in_string)) {
+    in_string <- ""
+  }
 
   # removing non alphanumeric characters and cleaning whitespace
   rm_special_char <- stringr::str_replace_all(in_string, "[^[:alnum:]]", " ") %>%
@@ -51,16 +56,20 @@ convert_excel_date <- function(x) {
 ```
 
 
-check if input  is date
+check if input is date
 
 ```{r}
 
 # confirm that date is in specified date format
 detect_date <- function(x) {
- 
-    str_detect(x, "[:digit:]{2,4}[-][:digit:]{1,2}[-][:digit:]{1,2}") |
-      str_detect(x, "[:digit:]{1,2}[/][:digit:]{1,2}[/][:digit:]{4}")
-
+    if(is.na(x)) {
+      return(FALSE)
+    } else {
+      
+    return(str_detect(x, "^[:digit:]{2,4}[-][:digit:]{1,2}[-][:digit:]{1,2}$") |
+      str_detect(x, "^[:digit:]{1,2}[/][:digit:]{1,2}[/][:digit:]{4}$"))
+      
+    }
 }
 
 ```
