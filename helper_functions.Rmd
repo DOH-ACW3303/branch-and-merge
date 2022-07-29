@@ -1,0 +1,94 @@
+---
+title: "helper_functions"
+author: "Allie Warren"
+date: "7/28/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+function to clean input strings
+
+```{r}
+
+# remove non alphanumeric characters,
+# extra whitespace, and convert to lower case
+test_string_clean <- function(in_string) {
+
+  # removing non alphanumeric characters and cleaning whitespace
+  rm_special_char <- stringr::str_replace_all(in_string, "[^[:alnum:]]", " ") %>%
+    stringr::str_trim(.)
+  
+  out_string <- tolower(rm_special_char)
+  
+  return(out_string)
+}
+
+```
+
+
+convet date to excel format
+
+```{r}
+
+# a function to convert an excel 5-digit date to a date that is compatible with WDRS
+convert_excel_date <- function(x) {
+  as.Date(as.numeric(x), origin = "1899-12-30")
+  
+}
+
+```
+
+
+check if input  is date
+
+```{r}
+
+# confirm that date is in specified date format
+detect_date <- function(x) {
+ 
+    str_detect(x, "[:digit:]{2,4}[-][:digit:]{1,2}[-][:digit:]{1,2}") |
+      str_detect(x, "[:digit:]{1,2}[/][:digit:]{1,2}[/][:digit:]{4}")
+
+}
+
+```
+
+
+create basic scatterplot
+
+```{r}
+
+# create basic scatterplot
+test_scatter_plot <- function(df, col1, col2, color_col) {
+  g1 <- ggplot(df, aes_string(x = col1, y = col2, color = color_col)) +
+    geom_point(size = 2) +
+    ggtitle('Test Plot') +
+    theme_bw()
+  
+  return(g1)
+  
+}
+
+
+```
+
+create basic dataframe
+
+```{r}
+
+# create test data frame
+test_df <- function(num_row = 50) {
+  
+  df <- data.frame(a = sample(seq(1, 100), num_row, replace = TRUE),
+                   b = sample(seq(1, 100), num_row, replace = TRUE),
+                   c = sample(c('cat1', 'cat2', 'cat3'), num_row, replace = TRUE))
+  
+  return(df)
+}
+
+```
