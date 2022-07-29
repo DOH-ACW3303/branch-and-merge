@@ -31,29 +31,40 @@ test_string_clean <- function(in_string) {
 ```
 
 
-convet date to excel format
-
-```{r}
-
-# a function to convert an excel 5-digit date to a date that is compatible with WDRS
-convert_excel_date <- function(x) {
-  as.Date(as.numeric(x), origin = "1899-12-30")
-  
-}
-
-```
-
-
 check if input  is date
 
 ```{r}
 
 # confirm that date is in specified date format
+# allow mdy or ymd with - or / separator
 detect_date <- function(x) {
  
-    str_detect(x, "[:digit:]{2,4}[-][:digit:]{1,2}[-][:digit:]{1,2}") |
-      str_detect(x, "[:digit:]{1,2}[/][:digit:]{1,2}[/][:digit:]{4}")
+    str_detect(x, "^[:digit:]{2,4}[-,/][:digit:]{1,2}[-,/][:digit:]{1,2}$") |
+      str_detect(x, "^[:digit:]{1,2}[-,/][:digit:]{1,2}[-,/][:digit:]{2,4}$")
 
+}
+
+```
+
+convert date to excel format
+
+```{r}
+
+# a function to convert an excel 5-digit date to a date that is compatible with WDRS
+convert_excel_date <- function(x) {
+  
+  # if input matches expected date format, return as data
+  if(detect_date(x)) {
+    return(x)
+  }
+  
+  else if(str_detect(x, "^[:digit:]{4,5}$")) {
+      return(as.Date(as.numeric(x), origin = "1899-12-30"))
+  
+  } else {
+    return(NA)
+  }
+  
 }
 
 ```
