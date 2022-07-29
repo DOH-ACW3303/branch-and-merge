@@ -18,10 +18,15 @@ function to clean input strings
 # remove non alphanumeric characters,
 # extra whitespace, and convert to lower case
 test_string_clean <- function(in_string) {
+  
+  # replace NA with blank string
+  if(is.na(in_string)) {
+    in_string <- ""
+  }
 
   # removing non alphanumeric characters and cleaning whitespace
   rm_special_char <- stringr::str_replace_all(in_string, "[^[:alnum:]]", " ") %>%
-    stringr::str_trim(.)
+    stringr::str_trim(.) %>% stringr::str_replace_all(., " +", " ")
   
   out_string <- tolower(rm_special_char)
   
