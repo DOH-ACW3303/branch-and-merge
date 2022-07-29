@@ -21,8 +21,15 @@ test_string_clean <- function(in_string) {
 
   # removing non alphanumeric characters and cleaning whitespace
   rm_special_char <- stringr::str_replace_all(in_string, "[^[:alnum:]]", " ") %>%
-    stringr::str_trim(.)
+  # convert to ASCII format to clean UTF-8 inputs
+    stringi::stri_enc_toascii(.) %>%
+  # remove special characters that were converted to \032 when converted to ASCII
+    str_replace_all(., "\032", " ")
   
+  # remove additional whitespace
+  rm_extra_space <- stringr::str_trim(rm_special_char) %>% stringr::str_squish(.)
+  
+  # convert to lower case
   out_string <- tolower(rm_special_char)
   
   return(out_string)
