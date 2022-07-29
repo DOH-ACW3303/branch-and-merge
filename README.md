@@ -16,3 +16,6 @@ Merge Conflicts
   - <<<<<<< to ======= are the local changes
   - ======= to >>>>>>> are the changes from the repo/other branch that you are merging with
 - can fix merge conflicts in the github interface or within the local scripts
+
+
+![git branches](/git_branches.png?raw=true "Git Branches")
